@@ -12,5 +12,5 @@ handlers.GetCurrencyList = function (args, context) {
 
     // The pre-defined http object makes synchronous HTTP requests
     var response = http.request(url, httpMethod, content, contentType, headers);
-    return response.results.All;
+    return JSON.stringify(JSON.parse(response)["results"]);
 };
