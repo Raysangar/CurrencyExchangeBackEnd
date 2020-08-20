@@ -29,12 +29,10 @@ handlers.GetExchangeRate = function (args, context) {
 
     var conversion = currencyFrom + "_" + currencyTo;
 
-    console.log(conversion);
     var url = "https://free.currconv.com/api/v7/convert?q=" + conversion + "&compact=ultra&apiKey=" + args["key"];
     if (args.hasOwnProperty("date"))
     {
-        var date = Date.parse(args["date"]);
-        url += "&date=" + date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay()";
+        url += "&date=" + args["date"];
     }
     var content = JSON.stringify(body);
     var httpMethod = "get";
@@ -44,4 +42,5 @@ handlers.GetExchangeRate = function (args, context) {
     var response = http.request(url, httpMethod, content, contentType, headers);
     return JSON.parse(response);
 };
+
 
