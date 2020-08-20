@@ -5,14 +5,14 @@ handlers.GetCurrencyList = function (args, context) {
     var body = {
     };
 
-    var url = "https://free.currconv.com/api/v7/currencies?apiKey=a37ce2f41e2fecf090a2";
+    var url = "https://free.currconv.com/api/v7/currencies?apiKey=" + args["key"];
     var content = JSON.stringify(body);
     var httpMethod = "get";
     var contentType = "application/json";
 
     // The pre-defined http object makes synchronous HTTP requests
     var response = http.request(url, httpMethod, content, contentType, headers);
-    return JSON.parse(response)["results"];
+    return JSON.parse(response);
 };
 
 handlers.GetExchangeRate = function (args, context) {
@@ -22,17 +22,19 @@ handlers.GetExchangeRate = function (args, context) {
     var body = {
     };
 
+    console.log(args);
+
     var currencyFrom = args.from;
     var currencyTo = args.to;
 
     var conversion = currencyFrom + "_" + currencyTo;
 
-    
-    var url = "https://free.currconv.com/api/v7//api/v7/convert?q=" + conversion + "&compact=ultra&apiKey=a37ce2f41e2fecf090a2";
+    console.log(conversion);
+    var url = "https://free.currconv.com/api/v7/convert?q=" + conversion + "&compact=ultra&apiKey=" + args["key"];
     if (args.hasOwnProperty("date"))
     {
-        debug.log(args["date"];
-        //url += "&date=[yyyy-mm-dd]";
+        var date = Date.parse(args["date"]);
+        url += "&date=" + date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay()";
     }
     var content = JSON.stringify(body);
     var httpMethod = "get";
@@ -40,5 +42,6 @@ handlers.GetExchangeRate = function (args, context) {
 
     // The pre-defined http object makes synchronous HTTP requests
     var response = http.request(url, httpMethod, content, contentType, headers);
-    return JSON.parse(response)[conversion]["val"];
+    return JSON.parse(response);
 };
+
